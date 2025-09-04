@@ -1,129 +1,140 @@
-# Twenty Phone Widget 📞
+# 📞 Twenty Phone Widget
 
-Widget téléphonique WebRTC intégré pour Twenty CRM utilisant Twilio SIP.
+Widget téléphonique WebRTC intégré pour Twenty CRM utilisant Twilio Voice SDK.
 
-## 🚀 Fonctionnalités
+## ✨ Fonctionnalités
 
-- ✅ Appels sortants/entrants WebRTC
-- 🎤 Contrôles d'appel (mute, hold, DTMF)
-- 📊 Logging automatique dans Twenty CRM
-- 🎨 Interface moderne et responsive
-- 🔒 Configuration sécurisée des credentials
+- 📱 **Appels WebRTC** directement depuis le navigateur
+- 🔄 **Intégration Twenty CRM** native avec thème sombre
+- 📲 **Appels entrants/sortants** avec gestion complète
+- 🎛️ **Contrôles d'appel** : Mute, Hold, DTMF, Hangup
+- 🎨 **Design System Twenty** parfaitement intégré
+- 🔒 **Authentification sécurisée** avec tokens JWT
+- 🌍 **Edge Location EU** (Dublin) pour latence optimale
 
-## 📋 Prérequis
+## 🚀 Installation Rapide
 
-- Node.js 20+
-- Compte Twilio avec domaine SIP configuré
-- Instance Twenty CRM avec API key
+### Prérequis
 
-## 🛠️ Installation
+- Node.js 18+
+- Compte Twilio avec Voice activé
+- Instance Twenty CRM (optionnel)
+
+### 1. Cloner le repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/Monssif94/twenty-phone-widget.git
 cd twenty-phone-widget
-
-# Install dependencies
-npm install
-
-# Create environment file
-cp .env.example .env.local
-# Edit .env.local with your credentials
 ```
 
-## ⚙️ Configuration
+### 2. Installer les dépendances
 
-Créez un fichier `.env.local` avec :
+```bash
+# Frontend
+npm install
+
+# Token Server
+cd server
+npm install
+cd ..
+```
+
+### 3. Configuration
+
+Créer `.env.local` à partir du template :
+
+```bash
+cp .env.example .env.local
+```
+
+Éditer `.env.local` avec vos credentials Twilio :
 
 ```env
-VITE_TWILIO_SIP_DOMAIN=your-domain.sip.twilio.com
-VITE_TWILIO_SIP_USERNAME=your-username
-VITE_TWILIO_SIP_PASSWORD=your-password
+# Twilio Voice SDK Configuration
+VITE_TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+VITE_TWILIO_API_KEY_SID=SKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+VITE_TWILIO_API_KEY_SECRET=your-api-key-secret
+VITE_TWILIO_TWIML_APP_SID=APxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+VITE_TWILIO_PHONE_NUMBER=+33100000000
+VITE_TOKEN_SERVER_URL=http://localhost:3001
+
+# Twenty CRM (optionnel)
 VITE_TWENTY_API_TOKEN=your-twenty-api-token
 ```
 
-## 🚀 Développement
+### 4. Démarrer les serveurs
 
 ```bash
-# Start dev server
+# Terminal 1 - Token Server (Port 3001)
+cd server
+npm start
+
+# Terminal 2 - Widget Frontend (Port 3000)
 npm run dev
-# Open http://localhost:3000
 ```
 
-## 📦 Build Production
+### 5. Accéder au widget
 
-```bash
-npm run build
-# Files in dist/ folder
-```
+Ouvrir http://localhost:3000 dans votre navigateur.
 
 ## 🏗️ Architecture
 
 ```
-src/modules/telephony/
-├── components/         # React components
-│   └── PhoneWidget/   # Main widget component
-├── hooks/             # Custom React hooks
-│   └── useTwilioPhone.ts
-├── services/          # Business logic
-│   └── TwilioService.ts
-└── types/             # TypeScript types
+twenty-phone-widget/
+├── src/
+│   ├── modules/telephony/
+│   │   ├── components/         # Composants React
+│   │   ├── hooks/              # React Hooks
+│   │   ├── services/           # Services métier
+│   │   ├── theme/              # Thèmes Twenty CRM
+│   │   └── types/              # TypeScript types
+│   └── App.tsx
+├── server/                     # Serveur de tokens
+│   └── token-server.js
+└── public/
+    └── sounds/
 ```
 
-## 🔧 Technologies
+## 🐳 Docker
 
-- React 19 + TypeScript
-- JsSIP (WebRTC)
-- Emotion (styled components)
-- Vite (build tool)
-- Twilio SIP
+```bash
+# Build
+docker-compose build
 
-## 📱 Usage
+# Lancement
+docker-compose up -d
 
-Le widget apparaît automatiquement en bas à droite de l'écran :
-
-1. Cliquez sur l'icône téléphone
-2. Composez un numéro ou recevez un appel
-3. Les appels sont automatiquement loggés dans Twenty CRM
-
-## 🚀 Déploiement
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine
-WORKDIR /app
-COPY . .
-RUN npm ci --only=production
-RUN npm run build
-CMD ["npm", "run", "preview"]
+# Logs
+docker-compose logs -f
 ```
 
-### Nginx
+## 🚢 Déploiement
 
-```nginx
-location / {
-    root /var/www/twenty-widget/dist;
-    try_files $uri /index.html;
-}
+Voir [DEPLOYMENT.md](./DEPLOYMENT.md) pour les instructions complètes.
+
+```bash
+# Déploiement automatique
+chmod +x deploy.sh
+./deploy.sh
 ```
 
 ## 🔒 Sécurité
 
-- Ne jamais commiter `.env.local`
+- **Ne jamais** exposer l'API Key Secret côté client
 - Utiliser HTTPS en production
-- Rotation régulière des API keys
-- Firewall : ouvrir ports WSS (443) et RTP (10000-60000/UDP)
+- Implémenter l'authentification sur le token server
+- Limiter les CORS aux domaines autorisés
 
-## 📝 License
+## 📄 License
 
 MIT
 
-## 👥 Contributeurs
+## 💬 Support
 
-- [@Monssif94](https://github.com/Monssif94)
+- [Issues GitHub](https://github.com/Monssif94/twenty-phone-widget/issues)
+- [Documentation Twilio](https://www.twilio.com/docs/voice/sdks/javascript)
+- [Twenty CRM](https://twenty.com)
 
 ---
 
-**Production**: https://crm.autoformai.fr
-**Staging**: https://staging-crm.autoformai.fr
+**Développé avec ❤️ pour Twenty CRM**
