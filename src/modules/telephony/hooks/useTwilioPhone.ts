@@ -15,6 +15,9 @@ export const useTwilioPhone = () => {
   const ringtoneRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
+    // Prevent double initialization
+    if (twilioServiceRef.current) return;
+    
     // Initialize with environment variables
     const config = {
       sipDomain: import.meta.env.VITE_TWILIO_SIP_DOMAIN || 'autoformai-widget.sip.twilio.com',
@@ -68,7 +71,10 @@ export const useTwilioPhone = () => {
 
     // Cleanup
     return () => {
-      twilioService.stop();
+      if (twilioServiceRef.current) {
+        twilioServiceRef.current.stop();
+        twilioServiceRef.current = null;
+      }
       stopRingtone();
     };
   }, []);
