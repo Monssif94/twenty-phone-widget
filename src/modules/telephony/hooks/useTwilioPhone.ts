@@ -17,7 +17,7 @@ export const useTwilioPhone = () => {
   useEffect(() => {
     // Initialize with environment variables
     const config = {
-      sipDomain: import.meta.env.VITE_TWILIO_SIP_DOMAIN || 'autoformai-widget.sip.us1.twilio.com',
+      sipDomain: import.meta.env.VITE_TWILIO_SIP_DOMAIN || 'autoformai-widget.sip.twilio.com',
       username: import.meta.env.VITE_TWILIO_SIP_USERNAME || 'agent1',
       password: import.meta.env.VITE_TWILIO_SIP_PASSWORD || 'Widget2025Secure!',
       displayName: 'Twenty CRM User',
