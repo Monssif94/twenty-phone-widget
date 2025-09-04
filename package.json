@@ -1,0 +1,38 @@
+{
+  "name": "twenty-phone-widget",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Monssif94/twenty-phone-widget.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Monssif94/twenty-phone-widget/issues"
+  },
+  "homepage": "https://github.com/Monssif94/twenty-phone-widget#readme",
+  "description": "",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "jssip": "^3.10.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4"
+  },
+  "devDependencies": {
+    "@emotion/babel-plugin": "^11.13.5",
+    "@types/jssip": "^3.5.3"
+  }
+}
