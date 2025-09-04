@@ -14,15 +14,19 @@ export class TwilioService {
   }
 
   private initializeUA() {
-    // Enable debug logs only in development
-    if (process.env.NODE_ENV === 'development') {
-      JsSIP.debug.enable('JsSIP:*');
-    }
+    // Always enable debug logs for now to diagnose issues
+    JsSIP.debug.enable('JsSIP:*');
+    
+    console.log('🔧 Initializing Twilio with config:', {
+      domain: this.config.sipDomain,
+      username: this.config.username,
+      displayName: this.config.displayName
+    });
 
     // WebSocket connection to Twilio
-    const socket = new JsSIP.WebSocketInterface(
-      `wss://${this.config.sipDomain}:443`
-    );
+    const wsUrl = `wss://${this.config.sipDomain}:443`;
+    console.log('🌐 Connecting to WebSocket:', wsUrl);
+    const socket = new JsSIP.WebSocketInterface(wsUrl);
 
     // UA Configuration
     const configuration = {
@@ -67,8 +71,13 @@ export class TwilioService {
       this.emit('unregistered');
     });
 
-    this.ua.on('registrationFailed', (e) => {
-      console.error('Registration failed:', e);
+    this.ua.on('registrationFailed', (e: any) => {
+      console.error('❌ Registration failed:', e);
+      console.error('Error details:', {
+        cause: e.cause,
+        response: e.response,
+        message: e.message
+      });
       this.emit('registrationFailed', e);
     });
 

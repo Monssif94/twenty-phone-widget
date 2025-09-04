@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  twenty-phone-widget:
+    build: .
+    container_name: twenty-phone-widget
+    ports:
+      - "3001:80"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    networks:
+      - twenty-network
+
+  # Optional: Development container
+  twenty-phone-dev:
+    image: node:20-alpine
+    container_name: twenty-phone-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - twenty-network
+    profiles:
+      - dev
+
+networks:
+  twenty-network:
+    driver: bridge
